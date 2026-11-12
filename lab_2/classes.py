@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from abc import ABC, abstractmethod
 
 
 @dataclass
@@ -8,7 +9,6 @@ class GameObject:
     Name : str
     x : int
     y : int
-
 
     def getId(self) -> int:        
         """
@@ -47,16 +47,16 @@ class Unit(GameObject):
         """
         return self.HP
 
-    def isAlive(self):
+    def isAlive(self) -> bool:
         """
         возвращает, жив ли юнит
         """
         if self.HP > 0 :
             return True
-        else:
-            return False
+
+        return False
     
-    def receiveDamage(self, damage):
+    def receiveDamage(self, damage: float):
         """
         метод, который вызывается для получения урона этим юнитом
         """
@@ -68,75 +68,68 @@ class Building(GameObject):
 
     percent_build : int
 
-    def isBuild(self):
+    def isBuild(self) -> bool:
         """
         возвращает, построена ли постройка или ещё нет
         """
         if self.percent_build == 100:
             return True
-        else:
-            return False
+
+        return False
 
 
-class Attacker:
+class Attacker(ABC):
     """
     Интерфейс Attacker
     """
-    def attack(self, damage):
+    @abstractmethod
+    def attack(self, unit: Unit):
         """
-        метод, принимающий юнит, которому наносится урон (как я поняла кол-во нанесённого урона)
+        метод, принимающий юнит, которому наносится урон
         """
-        return damage
 
 
-class Movable:
+class Movable(ABC):
     """
     Интерфейс Movable
     """
+    @abstractmethod
     def move(self):
-        pass
+        """
+        метод, обеспечивающий движение
+        """
 
 
 class Archer(Unit, Attacker, Movable):
-    pass
+    def attack(self, unit: Unit):
+        """
+        Реализация абстрактного метода
+        """
+        pass
+
+    def move(self):
+        """
+        Реализация абстрактного метода
+        """
+        pass
 
 
 class Fort(Building, Attacker):
-    pass
+    def attack(self, unit: Unit):
+        """
+        Реализация абстрактного метода
+        """
+        pass
 
 
-class MobileHome(Building, Movable):
-    pass
+class MobileHouse(Building, Movable):
+    def move(self):
+        """
+        Реализация абстрактного метода
+        """
+        pass
   
 
-"""
-Что такое интерфейс в программировании ?
-Интерфейс - это набор методов: которые торчат наружу
-например, у класса А может быть 3 интерфейса
-
-А.ленись() - интерфейс лентяй
-
-А.вымирай() и А.ннака() - интерфейс вымирания
-
-А.ешь() - интерфейс обеда
 
 
----
 
-
-берем класс В
-
-чтобы класс В соответствовал интерфейсу обеда, что надо сделать ?
-надо, чтобы в классе В был метод ешь()
-
----
-
-Class A:
-    def ешь(селф):
-        жру яблоки
-
-Class B:
-    def ешь(селф):
-        ем тараканов
-
-"""
