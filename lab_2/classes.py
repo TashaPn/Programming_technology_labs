@@ -3,40 +3,40 @@ from abc import ABC, abstractmethod
 
 
 @dataclass
-class GameObject:
+class _GameObject:
 
-    Id : int
-    Name : str
-    x : int
-    y : int
+    _id : int
+    _name : str
+    _x : int
+    _y : int
 
     def getId(self) -> int:        
         """
         возвращает идентификатор объекта
         """         
-        return self.Id
+        return self._id
     
     def GetName(self) -> str:  
         """
         возвращает имя объекта
         """            
-        return self.Name
+        return self._name
 
     def getX(self) -> int:  
         """
         возвращает значение где находится объект по X координате
         """              
-        return self.x
+        return self._x
         
     def getY(self) -> int:    
         """
         возвращает значение где находится объект по Y координате
         """           
-        return self.y
+        return self._y
 
     
 @dataclass
-class Unit(GameObject):
+class Unit(_GameObject):
 
     alive : bool
     HP : float
@@ -64,7 +64,7 @@ class Unit(GameObject):
 
 
 @dataclass
-class Building(GameObject):
+class Building(_GameObject):
 
     percent_build : int
 

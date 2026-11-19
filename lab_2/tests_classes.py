@@ -6,7 +6,8 @@ from classes import *
 class TestGameObjects(unittest.TestCase):
 
     def test_game_object(self):
-        player = GameObject(
+        from classes import _GameObject
+        player = _GameObject(
             123,
             "Player Name",
             201,
@@ -16,6 +17,15 @@ class TestGameObjects(unittest.TestCase):
         self.assertEqual(player.GetName(), "Player Name")
         self.assertEqual(player.getX(), 201)
         self.assertEqual(player.getY(), 303)
+
+    def test_game_object_closed(self):
+        with self.assertRaises(NameError):
+            player = _GameObject(  # type: ignore
+                        123,
+                        "Player Name",
+                        201,
+                        303,
+                    )        
 
     def test_unit(self):
 
